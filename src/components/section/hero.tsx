@@ -1,7 +1,14 @@
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { easeExpo } from "@/lib/motion-config";
+import useSmoothNavigate from "@/hooks/use-smooth-scroll";
 import hair_1 from "@/app/assets/img/people/hair_1.jpg";
 import hair_2 from "@/app/assets/img/people/hair_2.jpg";
-import useSmoothNavigate from "@/hooks/use-smooth-scroll";
+import useLoaded from "@/hooks/use-loaded";
+import useScrolled from "@/hooks/use-scrolled";
 import { cn } from "@/lib/utils";
 
 type LinkAnchorProps = {
@@ -11,6 +18,8 @@ type LinkAnchorProps = {
   className?: string;
   style?: React.CSSProperties;
 };
+
+const DELAY = 1.84;
 
 const LinkAnchor = ({ href, label, onClick, className, style }: LinkAnchorProps) => {
   const isInternalLink = href.startsWith("#");
@@ -25,91 +34,150 @@ const LinkAnchor = ({ href, label, onClick, className, style }: LinkAnchorProps)
   };
 
   return (
-    <a
+    <motion.a
       onClick={toInternalLink}
       href={href}
       className={cn("cursor-pointer transition-colors inline-block", className)}
       style={style}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 1.4,
+        ease: easeExpo,
+        delay: DELAY + 0.2,
+      }}
     >
       {label}
-    </a>
+    </motion.a>
   );
 };
 
 const Hero = () => {
+  const { loaded } = useLoaded();
+  const { scroll, unscroll } = useScrolled();
+  const ref = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  useEffect(() => {
+    let wasAbove = false;
+    return scrollYProgress.on("change", (latest) => {
+      if (latest > 0.35 && !wasAbove) {
+        scroll();
+        wasAbove = true;
+      } else if (latest <= 0.35 && wasAbove) {
+        unscroll();
+        wasAbove = false;
+      }
+    });
+  }, [scrollYProgress]);
+
+  const opacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.35], [1, 0.93]);
+  const translateY = useTransform(scrollYProgress, [0, 0.55], [0, 80]);
+
+  const navOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const navTranslateY = useTransform(scrollYProgress, [0, 0.35], [0, -60]);
+
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: "10%" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        ease: easeExpo,
+        duration: 2.0,
+        delay: DELAY,
+      },
+    },
+  };
+
   return (
-    <div className="flex-center relative h-screen">
-      <div className="h-full flex items-center duration-300 w-max relative">
-        <div className="absolute flex items-center justify-between top-8 left-0 right-0 text-lg">
-          <LinkAnchor href="#about" label="ABOUT US" />
-          <LinkAnchor href="#team" label="OUR TEAM" />
-          <LinkAnchor href="#services" label="SERVICES" />
-          <LinkAnchor href="#products" label="PRODUCTS" />
-          <LinkAnchor href="#artwork" label="ARTWORK" />
-          <LinkAnchor className="bg-neutral-900 text-white py-4 px-5" href="#" label="BOOK NOW" />
+    <section ref={ref} id="hero" className={cn(loaded ? "h-[200svh] mb-[-100svh]" : "h-full")}>
+      <div className="size-full flex-center sticky top-0 h-dvh overflow-hidden">
+        <div className="size-full flex-center section-container relative">
+          <motion.div
+            className="z-10 absolute hidden md:flex items-center justify-between top-8 left-0 right-0 text-lg"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInVariants}
+            style={{
+              opacity: navOpacity,
+              y: navTranslateY,
+            }}
+          >
+            <LinkAnchor href="#about" label="ABOUT US" />
+            <LinkAnchor href="#team" label="OUR TEAM" />
+            <LinkAnchor href="#services" label="SERVICES" />
+            <LinkAnchor href="#products" label="PRODUCTS" />
+            <LinkAnchor href="#artwork" label="ARTWORK" />
+            <LinkAnchor
+              className="bg-neutral-900 text-white py-4 px-5"
+              href="#book"
+              label="BOOK NOW"
+            />
+          </motion.div>
+          <motion.div className="relative w-full" style={{ opacity, scale, translateY }}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeInVariants}
+              className="relative z-10 text-center py-[100px] sm:py-[120px] xl:py-[140px]"
+            >
+              <h1 className="duration-300 text-[4rem] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] xl:text-[9rem] font-semibold leading-none">
+                LASSO
+                <br />
+                SALON
+              </h1>
+              <p className="duration-300 mt-2 md:mt-6 r text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-relaxed">
+                <span className="hidden lg:inline">
+                  SCALP CARE&nbsp;|&nbsp;HAIR DYE&nbsp;|&nbsp;PERMING&nbsp;|&nbsp;HAIR CARE
+                </span>
+                <span className="block lg:hidden">
+                  SCALP CARE&nbsp;|&nbsp;HAIR DYE
+                  <br />
+                  PERMING&nbsp;|&nbsp;HAIR CARE
+                </span>
+              </p>
+            </motion.div>
+
+            <div className="absolute inset-0 flex justify-between">
+              <motion.div
+                className="w-[40%] h-[50%] sm:w-[40%] sm:h-[65%] md:w-[38%] md:h-[65%] lg:w-[35%] lg:h-[80%]"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInVariants}
+              >
+                <Image
+                  className="object-cover max-w-none size-full"
+                  src={hair_2}
+                  alt="hair_2"
+                  priority
+                />
+              </motion.div>
+
+              <motion.div
+                className="mt-auto w-[40%] h-[50%] sm:w-[40%] sm:h-[65%] md:w-[38%] md:h-[65%] lg:w-[35%] lg:h-[80%]"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInVariants}
+              >
+                <Image
+                  className="object-cover max-w-none size-full"
+                  src={hair_1}
+                  alt="hair_1"
+                  priority
+                />
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
-        <Image
-          src={hair_2}
-          alt="hair_2"
-          width={420}
-          height={380}
-          priority
-          className="object-cover min-w-[420px] h-[380px] mr-[-96px] mt-[80px]"
-        />
-        <div className="relative z-50 text-center">
-          <h1 className="text-[9rem] font-semibold z-50 leading-none">
-            LASSO
-            <br />
-            SALON
-          </h1>
-          <p className="mt-8 font-medium">SCALP CARE | HAIR DYE | PERMING | HAIR CARE</p>
-        </div>
-        <Image
-          src={hair_1}
-          alt="hair_1"
-          width={400}
-          height={440}
-          priority
-          className="object-cover min-w-[400px] h-[440px] -ml-[60px] -mt-[60px]"
-        />
       </div>
-    </div>
+    </section>
   );
 };
 
 export default Hero;
-
-// const Hero = () => {
-//   return (
-//     <div className="flex-center relative">
-//       <div className="h-screen min-w-[500px] scale-50 sm:scale-60 md:scale-75 lg:scale-100 duration-300">
-//         <Image
-//           src="/indoor-view.jpg"
-//           alt="indoor"
-//           width={550}
-//           height={600}
-//           priority
-//           className="object-cover center-absolute w-[550px] h-[600px] max-sm:-translate-x-[calc(50%+70px)]"
-//         />
-//         <Image
-//           src="/leafs.jpg"
-//           alt="leafs"
-//           width={244}
-//           height={324}
-//           priority
-//           className="object-cover center-absolute w-[244px] h-[324px] sm:translate-x-[calc(220px)]
-//            translate-x-[calc(120px)]"
-//         />
-//         <Image
-//           src="/door.jpg"
-//           alt="door"
-//           width={364}
-//           height={273}
-//           priority
-//           className="object-cover center-absolute w-[364px] h-[273px] sm:-translate-x-[calc(50%+320px)] sm:-translate-y-[calc(20px)]
-//           hidden sm:block"
-//         />
-//       </div>
-//     </div>
-//   );
-// };

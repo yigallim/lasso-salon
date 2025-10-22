@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Arimo } from "next/font/google";
 import SmoothScrolling from "@/components/global/smooth-scrolling";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -11,6 +12,11 @@ import { cn } from "@/lib/utils";
 const montreal = localFont({
   src: "./assets/font/ppneuemontreal-variable.woff2",
   variable: "--font-montreal",
+});
+
+const arimo = Arimo({
+  subsets: ["latin"],
+  variable: "--font-arimo",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={cn("font-sans", montreal.variable)}>
+      <body suppressHydrationWarning className={cn("font-sans", montreal.variable, arimo.variable)}>
         <SmoothScrolling>{children}</SmoothScrolling>
       </body>
     </html>
