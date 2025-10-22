@@ -2,25 +2,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, animate, AnimationPlaybackControls } from "motion/react";
 
+type Product = {
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+};
+
 type BreakpointConfig = {
   slidesToShow: number;
   gap: number;
 };
 
-type CarouselProps = {
+type ProductCarouselProps = {
   breakpoints?: Record<number, BreakpointConfig>;
-  items: string[];
+  items: Product[];
 };
 
-export default function Carousel({
+export default function ProductCarousel({
   breakpoints = {
-    0: { slidesToShow: 2, gap: 6 },
-    500: { slidesToShow: 2.5, gap: 8 },
-    768: { slidesToShow: 3, gap: 12 },
-    1024: { slidesToShow: 5, gap: 16 },
+    0: { slidesToShow: 1.5, gap: 6 },
+    500: { slidesToShow: 2, gap: 6 },
+    768: { slidesToShow: 3, gap: 8 },
+    1024: { slidesToShow: 5, gap: 8 },
   },
   items,
-}: CarouselProps) {
+}: ProductCarouselProps) {
   const [index, setIndex] = useState(items.length); // start in middle (group 2)
   const [slidesToShow, setSlidesToShow] = useState(3);
   const [gap, setGap] = useState(16);
@@ -111,25 +118,37 @@ export default function Carousel({
   const activeIndex = (((index - offset) % total) + total) % total;
 
   return (
-    <div className="w-full lg:p-10 sm:p-4 p-2 pb-0">
-      <div className="flex flex-col items-center gap-6 md:gap-8">
+    <div className="w-full">
+      <div className="flex flex-col items-center gap-5 md:gap-8">
         {/* Carousel */}
         <div className="relative w-full" ref={containerRef}>
           <motion.div className="flex" style={{ x, gap: `${gap}px` }}>
-            {extended.map((url, i) => (
+            {extended.map((product, i) => (
               <div
                 key={i}
-                className="shrink-0 aspect-[3/4] overflow-hidden relative"
+                className="shrink-0 flex flex-col items-center text-center bg-white"
                 style={{
                   width: `calc((100% - ${(slidesToShow - 1) * gap}px) / ${slidesToShow})`,
                 }}
               >
-                <img
-                  src={url}
-                  alt=""
-                  className="w-full h-full object-cover select-none pointer-events-none"
-                  draggable={false}
-                />
+                {/* Image */}
+                <div className="aspect-square w-full overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover select-none"
+                    draggable={false}
+                  />
+                </div>
+
+                {/* Info */}
+                <div className="mt-4">
+                  <div className="text-base font-medium text-neutral-800">{product.name}</div>
+                  <div className="text-sm text-neutral-500">{product.brand}</div>
+                  <div className="text-base mt-2 font-medium text-neutral-700">
+                    RM {product.price.toFixed(2)}
+                  </div>
+                </div>
               </div>
             ))}
           </motion.div>

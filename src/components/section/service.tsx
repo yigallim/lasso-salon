@@ -14,7 +14,7 @@ interface ServiceTabProps {
 
 export const ServiceTab: React.FC<ServiceTabProps> = ({ items }) => {
   return (
-    <div className="w-full bg-neutral-100 shadow-[0_6px_12px_4px_rgba(0,0,0,0.08)] text-neutral-800 rounded-2xl px-6 md:px-10 py-10">
+    <div className="w-full bg-neutral-100 shadow-[0_6px_12px_4px_rgba(0,0,0,0.08)] text-neutral-800 px-6 md:px-10 py-10">
       <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 sm:gap-y-8 text-[15px] md:text-base leading-relaxed">
         {items.map(({ title, desc, price }, index) => (
           <div
@@ -22,7 +22,7 @@ export const ServiceTab: React.FC<ServiceTabProps> = ({ items }) => {
             className="flex items-center justify-between border-b border-gray-200 pb-2"
           >
             <div>
-              <h3 className="font-bold text-lg">{title}</h3>
+              <h3 className="font-medium text-lg">{title}</h3>
               <p className="text-gray-600 text-sm">{desc}</p>
             </div>
             <span className="font-medium text-right">{price}</span>
@@ -118,21 +118,17 @@ const tabs = [
 
 const Service = () => {
   return (
-    <section className="w-full flex flex-col items-center">
-      <div className="section-container relative">
-        <div
-          className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
+    <section className="section-container">
+      <div
+        className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
           leading-[0.75] lg:tracking-widest font-bold font-bg text-[#F5F5F5]"
-        >
-          SALON
-        </div>
-        <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
-          OUR SERVICES
-        </h2>
-        <div className="h-[20rem] md:h-[40rem]">
-          <Tabs tabs={tabs} />
-        </div>
+      >
+        SALON
       </div>
+      <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
+        OUR SERVICES
+      </h2>
+      <Tabs tabs={tabs} />
     </section>
   );
 };

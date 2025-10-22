@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { easeExpo } from "@/lib/motion-config";
@@ -26,6 +26,7 @@ export const Tabs = ({
 }) => {
   const [active, setActive] = useState<Tab>(propTabs[0]);
   const [tabs, setTabs] = useState<Tab[]>(propTabs);
+  const [contentHeight, setContentHeight] = useState<number>(0);
 
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
@@ -72,7 +73,15 @@ export const Tabs = ({
           </button>
         ))}
       </div>
-      <FadeInDiv tabs={tabs} active={active} key={active.value} className={cn(contentClassName)} />
+      <div className="duration-300" style={{ height: contentHeight }}>
+        <FadeInDiv
+          tabs={tabs}
+          active={active}
+          key={active.value}
+          className={cn(contentClassName)}
+          onHeightChange={setContentHeight}
+        />
+      </div>
     </>
   );
 };
@@ -81,15 +90,51 @@ export const FadeInDiv = ({
   className,
   tabs,
   active,
+  onHeightChange,
 }: {
   className?: string;
   tabs: Tab[];
   active: Tab;
+  onHeightChange?: (h: number) => void;
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const isActive = (tab: Tab) => tab.value === active.value;
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    let prevHeight = 0;
+
+    const observer = new ResizeObserver(() => {
+      const motionDivs = containerRef.current!.querySelectorAll(
+        ":scope > *"
+      ) as NodeListOf<HTMLElement>;
+
+      let tallest = 0;
+
+      motionDivs.forEach((motionEl, idx) => {
+        const inner = motionEl.firstElementChild as HTMLElement | null;
+        if (!inner) return;
+        const innerHeight = inner.offsetHeight;
+        const scale = 1 - idx * 0.1;
+        const top = idx * -20;
+        const effectiveHeight = innerHeight * scale + top;
+        tallest = Math.max(tallest, effectiveHeight);
+      });
+
+      // ⚡ only update if height really changed
+      if (Math.abs(tallest - prevHeight) > 0.5) {
+        prevHeight = tallest;
+        onHeightChange?.(tallest);
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [onHeightChange, active, tabs]);
+
   return (
-    <div className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full h-full">
       {tabs.map((tab, idx) => (
         <motion.div
           key={tab.value}
@@ -116,7 +161,7 @@ export const FadeInDiv = ({
             filter: { duration: 0.3, ease: easeExpo },
             opacity: { duration: 0.3, ease: easeExpo },
           }}
-          className={cn("w-full h-full absolute top-0 left-0", className)}
+          className={cn("w-full absolute top-0 left-0", className)}
         >
           {tab.content}
         </motion.div>

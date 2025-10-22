@@ -113,12 +113,12 @@
 //     <div className="w-full lg:p-10 sm:p-4 p-2">
 //       <div className="flex flex-col items-center gap-8">
 //         {/* Carousel */}
-//         <div className="relative rounded-lg w-full overflow-hidden" ref={containerRef}>
+//         <div className="relative w-full overflow-hidden" ref={containerRef}>
 //           <motion.div className="flex gap-4" style={{ x }}>
 //             {displayItems.map((url, i) => (
 //               <div
 //                 key={`${url}-${i}`}
-//                 className="shrink-0 h-[400px] rounded-lg overflow-hidden relative"
+//                 className="shrink-0 h-[400px] overflow-hidden relative"
 //                 style={{
 //                   width: `calc((100% - ${(slidesToShow - 1) * 16}px) / ${slidesToShow})`,
 //                 }}

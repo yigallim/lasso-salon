@@ -13,7 +13,7 @@ const longText = shortText + " " + extraText;
 
 const AboutUs = () => {
   return (
-    <section className="section-container relative">
+    <section className="section-container">
       <div
         className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
       leading-[0.75] lg:tracking-widest font-bold font-bg text-[#F5F5F5]"
