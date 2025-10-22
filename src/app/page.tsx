@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Navigation from "@/components/section/navigation";
 import ArtWork from "@/components/section/artwork";
 import Service from "@/components/section/service";
+import Test from "@/components/section/test";
 
 const Page = () => {
   const { loaded, load } = useLoaded();
@@ -32,7 +33,8 @@ const Page = () => {
           <AboutUs />
           <ArtWork />
           <Service />
-          <div className="mt-12 h-screen section-container"></div>
+          {/* <Test /> */}
+          <div className="h-screen"></div>
         </div>
       </main>
     </>

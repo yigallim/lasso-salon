@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { easeExpo } from "@/lib/motion-config";
 
 type Tab = {
   title: string;
@@ -79,15 +80,14 @@ export const Tabs = ({
 export const FadeInDiv = ({
   className,
   tabs,
+  active,
 }: {
   className?: string;
-  key?: string;
   tabs: Tab[];
   active: Tab;
 }) => {
-  const isActive = (tab: Tab) => {
-    return tab.value === tabs[0].value;
-  };
+  const isActive = (tab: Tab) => tab.value === active.value;
+
   return (
     <div className="relative w-full h-full">
       {tabs.map((tab, idx) => (
@@ -98,12 +98,23 @@ export const FadeInDiv = ({
             scale: 1 - idx * 0.1,
             top: idx * -20,
             zIndex: -idx,
-            opacity: idx < 3 ? 1 - idx * 0.1 : 0,
             originY: 0,
             originX: 0.5,
           }}
+          initial={{
+            y: 0,
+            opacity: idx < 3 ? 1 - idx * 0.1 : 0,
+            filter: "blur(3px)",
+          }}
           animate={{
-            y: isActive(tab) ? [0, 40, 0] : 0,
+            y: isActive(tab) ? 0 : 0,
+            opacity: idx < 3 ? 1 - idx * 0.1 : 0,
+            filter: isActive(tab) ? "blur(0px)" : "blur(3px)",
+          }}
+          whileTap={isActive(tab) ? { y: [0, 40, 0] } : {}}
+          transition={{
+            filter: { duration: 0.3, ease: easeExpo },
+            opacity: { duration: 0.3, ease: easeExpo },
           }}
           className={cn("w-full h-full absolute top-0 left-0", className)}
         >
