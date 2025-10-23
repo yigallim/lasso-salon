@@ -11,12 +11,13 @@ import Service from "@/components/section/service";
 import Location from "@/components/section/location";
 import Test from "@/components/section/test";
 import Product from "@/components/section/product";
+import Footer from "@/components/section/footer";
 
 const Page = () => {
   const { loaded, load } = useLoaded();
 
   useEffect(() => {
-    const loadTimer = setTimeout(load, 500);
+    const loadTimer = setTimeout(load, 1);
     return () => {
       clearTimeout(loadTimer);
     };
@@ -29,7 +30,7 @@ const Page = () => {
         <Navigation />
         <Hero />
         <div
-          className="overflow-hidden w-full relative z-20 flex flex-col items-center gap-16 md:gap-24 lg:gap-32 py-20
+          className="overflow-hidden w-full relative z-20 flex flex-col items-center gap-16 md:gap-24 lg:gap-32 pt-20
         bg-white border-t-2 shadow-[0_0_60px_16px_rgba(0,0,0,0.08)]"
         >
           <AboutUs />
@@ -37,8 +38,7 @@ const Page = () => {
           <Service />
           <Product />
           <Location />
-          {/* <Test /> */}
-          <div className="h-screen"></div>
+          <Footer />
         </div>
       </main>
     </>
