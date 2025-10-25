@@ -64,7 +64,7 @@ const Welcome = () => {
               from={{ opacity: 0, y: "100%" }}
               to={{ opacity: 1, y: "0%" }}
               text="Welcome"
-              className="text-neutral-100 font-semibold text-7xl leading-normal"
+              className="text-neutral-100 font-semibold text-5xl md:text-7xl leading-normal"
             />
             <SplitText
               tag="h5"
@@ -74,7 +74,7 @@ const Welcome = () => {
               from={{ opacity: 0, y: "100%" }}
               to={{ opacity: 1, y: "0%" }}
               text={"© LASSO " + getYear()}
-              className="text-neutral-400 heading-5 font-semibold font-sans text-3xl leading-normal"
+              className="text-neutral-400 font-semibold font-sans text-2xl md:text-3xl leading-normal"
             />
           </div>
         </div>

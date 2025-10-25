@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import useScrolled from "@/hooks/use-scrolled";
 import useLoaded from "@/hooks/use-loaded";
 import useSmoothNavigate from "@/hooks/use-smooth-navigate";
+import useSidebar from "@/hooks/use-sidebar";
 
 export const INSTAGRAM = {
   label: "Instagram",
@@ -123,18 +124,18 @@ const navItems = [
 ];
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { open, closeSidebar, toggleSidebar } = useSidebar();
   const [key, setKey] = useState(0);
   const { scrolled } = useScrolled();
   const { loaded } = useLoaded();
 
   const handleToggle = () => {
-    setIsOpen((value) => !value);
+    toggleSidebar();
     setKey((prevKey) => prevKey + 1);
   };
 
   const handleLinkAnchorClick = () => {
-    setIsOpen(false);
+    closeSidebar();
   };
 
   return (
@@ -160,18 +161,18 @@ const Navigation = () => {
         <div
           className={cn(
             "duration-300 h-[0.125rem] w-[2rem] bg-neutral-600 absolute ease-expo",
-            isOpen ? "rotate-45" : "-translate-y-1"
+            open ? "rotate-45" : "-translate-y-1"
           )}
         />
         <div
           className={cn(
             "duration-300 h-[0.125rem] w-[2rem] bg-neutral-600 absolute ease-expo",
-            isOpen ? "-rotate-45" : "translate-y-1"
+            open ? "-rotate-45" : "translate-y-1"
           )}
         />
       </motion.button>
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
             key={`mask-${key}`}
             className="bg-neutral-900/50 fixed inset-0 z-40"
@@ -185,7 +186,7 @@ const Navigation = () => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <div
             key={`sidebar-${key}`}
             className="z-50 fixed top-2 bottom-2 right-0 pl-2 max-w-[32rem] md:max-w-[33.5rem] lg:max-w-[36rem] w-full"

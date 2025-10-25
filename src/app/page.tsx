@@ -1,23 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
 import useLoaded from "@/hooks/use-loaded";
+import useSidebar from "@/hooks/use-sidebar";
 import Hero from "@/components/section/hero";
 import Welcome from "@/components/section/welcome";
 import AboutUs from "@/components/section/about-us";
-import { cn } from "@/lib/utils";
 import Navigation from "@/components/section/navigation";
 import ArtWork from "@/components/section/artwork";
 import Service from "@/components/section/service";
 import Location from "@/components/section/location";
-import Test from "@/components/section/test";
 import Product from "@/components/section/product";
 import Footer from "@/components/section/footer";
+import { cn } from "@/lib/utils";
 
 const Page = () => {
   const { loaded, load } = useLoaded();
+  // const { open } = useSidebar();
 
   useEffect(() => {
-    const loadTimer = setTimeout(load, 1);
+    const loadTimer = setTimeout(load, 3000);
     return () => {
       clearTimeout(loadTimer);
     };
