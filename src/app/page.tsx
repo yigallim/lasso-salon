@@ -30,7 +30,7 @@ const Page = () => {
         <Navigation />
         <Hero />
         <div
-          className="overflow-hidden w-full relative z-20 flex flex-col items-center gap-16 md:gap-24 lg:gap-32 pt-20
+          className="overflow-hidden w-full relative z-20 flex flex-col items-center gap-24 md:gap-32 pt-20
         bg-white border-t-2 shadow-[0_0_60px_16px_rgba(0,0,0,0.08)]"
         >
           <AboutUs />

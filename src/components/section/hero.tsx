@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { easeExpo } from "@/lib/motion-config";
-import useSmoothNavigate from "@/hooks/use-smooth-scroll";
+import useSmoothNavigate from "@/hooks/use-smooth-navigate";
 import hair_1 from "@/app/assets/img/people/hair_1.jpg";
 import hair_2 from "@/app/assets/img/people/hair_2.jpg";
 import useLoaded from "@/hooks/use-loaded";
@@ -109,11 +109,10 @@ const Hero = () => {
               y: navTranslateY,
             }}
           >
-            <LinkAnchor href="#about" label="ABOUT US" />
-            <LinkAnchor href="#team" label="OUR TEAM" />
-            <LinkAnchor href="#services" label="SERVICES" />
-            <LinkAnchor href="#products" label="PRODUCTS" />
+            <LinkAnchor href="#about-us" label="ABOUT US" />
             <LinkAnchor href="#artwork" label="ARTWORK" />
+            <LinkAnchor href="#service" label="SERVICES" />
+            <LinkAnchor href="#product" label="PRODUCTS" />
             <LinkAnchor
               className="bg-neutral-900 text-white py-4 px-5"
               href="#book"

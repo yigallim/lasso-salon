@@ -4,12 +4,12 @@ const Location = () => {
   return (
     <section className="section-container">
       <div
-        className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
+        className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[27vi] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
               leading-[0.75] lg:tracking-widest font-bold font-bg text-[#F5F5F5]"
       >
         PLACE
       </div>
-      <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.5em] sm:mb-[2em] leading-none">
+      <h2 className="text-[6vi] sm:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.5em] sm:mb-[2em] leading-none">
         LOCATION
       </h2>
       <iframe

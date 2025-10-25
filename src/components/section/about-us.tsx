@@ -13,16 +13,16 @@ const longText = shortText + " " + extraText;
 
 const AboutUs = () => {
   return (
-    <section className="section-container">
+    <section id="about-us" className="section-container">
       <div
-        className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
+        className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[27vi] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
       leading-[0.75] lg:tracking-widest font-bold font-bg text-[#F5F5F5]"
       >
         LASSO
       </div>
       <div className="w-full flex max-lg:flex-col z-10 relative">
         <div className="lg:flex-1 lg:mr-12 leading-relaxed mb-8">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
+          <h2 className="text-[6vi] sm:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
             ABOUT US
           </h2>
           <p className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[26px] xl:text-[32px] gradient-text max-md:hidden">

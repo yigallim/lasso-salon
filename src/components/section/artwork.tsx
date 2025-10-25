@@ -25,15 +25,15 @@ const items = [
 
 const ArtWork = () => {
   return (
-    <section className="w-full flex flex-col items-center">
+    <section id="artwork" className="w-full flex flex-col items-center">
       <div className="section-container relative">
         <div
-          className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[120px] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
+          className="md:-ml-[0.1em] -mb-[0.3em] sm:-mb-[0.25em] text-[27vi] sm:text-[160px] md:text-[200px] lg:text-[240px] xl:text-[280px] 
           leading-[0.75] lg:tracking-widest font-bold font-bg text-[#F5F5F5]"
         >
           STYLE
         </div>
-        <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
+        <h2 className="text-[6vi] sm:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-[1.25em] md:mb-[2em] leading-none">
           OUR ARTWORK
         </h2>
       </div>

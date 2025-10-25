@@ -1,17 +1,27 @@
+import useSmoothNavigate from "@/hooks/use-smooth-navigate";
 import React from "react";
 
-const Footer = () => {
-  const exploreLinks = [
-    { name: "About Us", href: "#about-us" },
-    { name: "Artwork", href: "#artwork" },
-    { name: "Service", href: "#" },
-    { name: "Product", href: "#product" },
-  ];
+const exploreLinks = [
+  { name: "About Us", href: "#about-us" },
+  { name: "Artwork", href: "#artwork" },
+  { name: "Service", href: "#service" },
+  { name: "Product", href: "#product" },
+];
 
-  const followLinks = [
-    { name: "Instagram", href: "https://www.instagram.com/lassosalon/" },
-    { name: "Facebook", href: "https://www.facebook.com/Lassohair/" },
-  ];
+const followLinks = [
+  { name: "Instagram", href: "https://www.instagram.com/lassosalon/" },
+  { name: "Facebook", href: "https://www.facebook.com/Lassohair/" },
+];
+
+const Footer = () => {
+  const smoothScroll = useSmoothNavigate();
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const isInternal = href.startsWith("#");
+    if (isInternal) {
+      e.preventDefault();
+      smoothScroll(href.slice(1));
+    }
+  };
 
   return (
     <footer className="flex flex-col justify-between items-center gap-[6vi] md:gap-[3vi] w-full text-neutral-800 bg-neutral-100 pt-12">
@@ -26,7 +36,13 @@ const Footer = () => {
             <ul className="font-semibold text-[6vi] md:text-[3vi] lg:text-[2.7vi] leading-none space-y-[0.4em]">
               {exploreLinks.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="block" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={link.href}
+                    className="block"
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    target={link.href.startsWith("#") ? "_self" : "_blank"}
+                    rel="noopener noreferrer"
+                  >
                     {link.name}
                   </a>
                 </li>
